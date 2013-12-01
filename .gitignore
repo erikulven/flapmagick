@@ -38,6 +38,7 @@ nosetests.xml
 .ropeproject
 .settings
 .settings.cfg
+local_settings.py
 .idea
 *.iml
 .spyderproject

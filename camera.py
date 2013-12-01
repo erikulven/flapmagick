@@ -3,14 +3,16 @@ import requests
 import time
 from PIL import Image
 import StringIO
+import settings
 
-user = "bergro"
-pwd = "1240"
+
+user = settings.cam_user
+pwd = settings.cam_pwd
+cam_url = settings.cam_url
 
 
 def fetch_snapshot_image():
-    u = 'http://192.168.2.60/snapshot.cgi'
-    r = requests.get(u, auth=(user, pwd), stream=True)
+    r = requests.get(settings.cam_url, auth=(user, pwd), stream=True)
     if r.status_code == 200:
         imageData = StringIO.StringIO()
         imageData.write(r.raw)
