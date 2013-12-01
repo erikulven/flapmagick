@@ -26,9 +26,9 @@ logger.setLevel(logging.DEBUG)
 logger.addHandler(vlh)
 logger.info("Initializing flapmagick, logging to: %s" % logger_filename)
 
-current_servo_pos = 100
+current_servo_pos = 170
 io.setmode(io.BCM)
- 
+
 door_pin = 23
 outside_pin = 24
 inside_pin = 25
@@ -114,6 +114,8 @@ if __name__ == '__main__':
                     if is_open():
                         logger.info("Visitor has left so we close the door!")
                         close_door()
+                        # delay awhile after close to settle in
+                        time.sleep(DELAY_CLOSE)
             time.sleep(0.9)
         except Exception as e:
             logger.exception("Error occured: %s" % e)

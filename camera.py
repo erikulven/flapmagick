@@ -1,7 +1,7 @@
 """ Uses camera and takes images for documentation of motion """
-import requests
 import time
 from PIL import Image
+import urllib
 import StringIO
 import settings
 
@@ -12,6 +12,11 @@ cam_url = settings.cam_url
 
 
 def fetch_snapshot_image():
+    im = StringIO.StringIO(urllib.urlopen(settings.cam_url).read())
+    return im
+
+def dummy():
+    img = Image.open(im)
     r = requests.get(settings.cam_url, auth=(user, pwd), stream=True)
     if r.status_code == 200:
         imageData = StringIO.StringIO()
@@ -29,7 +34,7 @@ def compare(buffer1, buffer2, threshold=0):
     """
     # Count changed pixels
     changedPixels = 0
-    print "In compare"
+    print "In compare buf1: %s buf2: %s" % (buffer1, buffer2)
     for x in xrange(0, 100):
         # Scan one line of image then check sensitivity for movement
         for y in xrange(0, 75):
@@ -52,7 +57,7 @@ if __name__ == "__main__":
             buf = im.load()
             prev_im = Image.open(prev_img)
             prev_buf = prev_im.load()
-            print "Diff in images is: %s" % compare(prev_img, img)
+            print "Diff in images is: %s" % compare(prev_buf, buf)
             im.close()
             prev_im.close()
         prev_img = img
